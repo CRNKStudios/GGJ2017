@@ -20,7 +20,7 @@ public class Chord : MonoBehaviour
 	/// <summary>
     /// Speed at which the cord travels
     /// </summary>
-	private float speed = 5f;
+	private float speed = 2f;
 	/// <summary>
     /// Direction to shoot the cord. Right or left depending on shooter.
     /// </summary>
@@ -62,7 +62,6 @@ public class Chord : MonoBehaviour
 		direction = dir;
 		chooseNoteModel(_n);
 		setTextBar(_n);
-		//transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
 	}
 
 	/// <summary>
@@ -104,14 +103,14 @@ public class Chord : MonoBehaviour
 	/// <summary>
     /// Increase speed of the cord
     /// </summary>
-	void increaseSpeed()
+	public void increaseSpeed()
 	{
 		speed = speed * 2;
 	}
 	/// <summary>
     /// Decrease speed of the cord
     /// </summary>
-	void decreaseSpeed()
+	public void decreaseSpeed()
 	{
 		speed = speed / 2;
 	}
@@ -124,12 +123,20 @@ public class Chord : MonoBehaviour
 		direction = dir;
 	}
 	/// <summary>
-    /// Load the model of the cord
+    /// Compare the notes in the other chord
     /// </summary>
-    /// <param name="size">Given size of the cord (1-3)</param>
-	public void loadModel(int size)
+    /// <param name="other">the other chord to compare</param>
+	public bool notesAreEqual(Chord other)
 	{
-		//Instantiate (models [size - 1], Transform.position);
+		if (notes.Length > other.notes.Length) return false;
+		for (int i = 0; i < notes.Length; i++) 
+		{
+			if (notes [i] != other.notes [i]) 
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 	/// <summary>
     /// Creates an empty note array
@@ -153,13 +160,29 @@ public class Chord : MonoBehaviour
 		}
 		buttonText.text = o;
 	}
-
+	/// <summary>
+    /// Inverse the note object and text UI to face the direction and user.
+    /// </summary>
 	private void inverseNote()
 	{
 		// rotates model
 		this.transform.Rotate(new Vector3(0f, 180f, 0f));
 		// rotate canvas back
 		this.GetComponentInChildren<Canvas>().transform.Rotate(new Vector3(0f,-180f, 0f));
+	}
+	/// <summary>
+    /// Collision handling for the notes.
+    /// </summary>
+    /// <param name="other">Collider object</param>
+	void OnTriggerEnter(Collider other) 
+	{
+		if (other.gameObject.tag == "Note") 
+		{
+			if (this.notesAreEqual(other.gameObject.GetComponent<Chord>())) 
+			{
+				Destroy (gameObject);
+			}
+		}
 	}
 }
 

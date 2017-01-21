@@ -143,7 +143,7 @@ public class Chord : MonoBehaviour
 		if (other.gameObject.name == "Note(Clone)") {
 			//Chord dank = other.gameObject.GetComponent<Chord> ();
 			Debug.Log("OnTriggeer");
-			if (this.notesAreEqual (other.gameObject.GetComponent<Chord> ())) {
+			if (notesAreEqual (other.gameObject.GetComponent<Chord> ())) {
 				Debug.Log ("NOTES EQUAL");
 				Destroy (gameObject);
 			}

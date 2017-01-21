@@ -88,8 +88,9 @@ public class Chord : MonoBehaviour
 		}
 		chooseNoteModel(notes);
 		direction = Direction.Left;
+		Debug.Log ("randomChord the Bullet is: " + notes[0] + " " + notes[1] + " " + notes[2]);
 	}
-
+		
 	/// <summary>
     /// Increase speed of the cord
     /// </summary>

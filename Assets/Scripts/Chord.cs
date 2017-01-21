@@ -51,9 +51,8 @@ public class Chord : MonoBehaviour
 		}
 	}
 
-	//Use this function when you spawn to set notes
 	/// <summary>
-    /// Use function when spawning to set the notes of the cord.
+    /// Use function when spawning to set the notes of the cord. Player calls this
     /// </summary>
     /// <param name="_n">Array of notes</param>
     /// <param name="dir">Direction of the cord</param>
@@ -63,8 +62,7 @@ public class Chord : MonoBehaviour
 		direction = dir;
 		chooseNoteModel(_n);
 		setTextBar(_n);
-		transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
-		transform.Rotate(new Vector3 (0, 0, 35));
+		//transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
 	}
 
 	/// <summary>
@@ -77,8 +75,7 @@ public class Chord : MonoBehaviour
 		{
 			if (_n[i] != Notes.Empty) 
 			{
-				GameObject temp = Instantiate(models[i], models[i].transform.position, models[i].transform.localRotation);
-				this.transform.rotation = temp.transform.rotation;
+				GameObject temp = Instantiate(models[i], models[i].transform);
 				GetComponent<MeshFilter>().mesh = temp.GetComponent<MeshFilter>().mesh;
 				Destroy(temp);
 			}
@@ -86,7 +83,7 @@ public class Chord : MonoBehaviour
 	}
 
 	/// <summary>
-    /// Create a cord with random notes
+    /// Create a cord with random notes. Enemy calls this.
     /// </summary>
     /// <param name="size"></param>
 	public void randomChord(int size)
@@ -101,7 +98,7 @@ public class Chord : MonoBehaviour
 		chooseNoteModel(notes);
 		setTextBar(notes);
 		direction = Direction.Left;
-		//Debug.Log ("randomChord the Bullet is: " + notes[0] + " " + notes[1] + " " + notes[2]);
+		inverseNote();
 	}
 		
 	/// <summary>
@@ -155,6 +152,14 @@ public class Chord : MonoBehaviour
 			o += _n[i].ToString() + " ";
 		}
 		buttonText.text = o;
+	}
+
+	private void inverseNote()
+	{
+		// rotates model
+		this.transform.Rotate(new Vector3(0f, 180f, 0f));
+		// rotate canvas back
+		this.GetComponentInChildren<Canvas>().transform.Rotate(new Vector3(0f,-180f, 0f));
 	}
 }
 

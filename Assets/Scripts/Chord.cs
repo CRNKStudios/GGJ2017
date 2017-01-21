@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Chord : MonoBehaviour 
 {
@@ -8,6 +9,10 @@ public class Chord : MonoBehaviour
     /// Model of cord to use. Single, double or triple.
     /// </summary>
 	public GameObject[] models;
+	/// <summary>
+    /// Text for the buttons the notes need to be destroyed with.
+    /// </summary>
+	public Text buttonText;
 	/// <summary>
     /// Notes of the cord. Can be 1-3
     /// </summary>
@@ -57,10 +62,15 @@ public class Chord : MonoBehaviour
 		notes = _n;
 		direction = dir;
 		chooseNoteModel(_n);
+		setTextBar(_n);
 		transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
 		transform.Rotate(new Vector3 (0, 0, 35));
 	}
 
+	/// <summary>
+    /// Picks the note model to display.
+    /// </summary>
+    /// <param name="_n">Array of notes, 1-3</param>
 	private void chooseNoteModel(Notes[] _n)
 	{
 		for (int i = 0; i < _n.Length; i++) 
@@ -89,8 +99,9 @@ public class Chord : MonoBehaviour
 			}
 		}
 		chooseNoteModel(notes);
+		setTextBar(notes);
 		direction = Direction.Left;
-		Debug.Log ("randomChord the Bullet is: " + notes[0] + " " + notes[1] + " " + notes[2]);
+		//Debug.Log ("randomChord the Bullet is: " + notes[0] + " " + notes[1] + " " + notes[2]);
 	}
 		
 	/// <summary>
@@ -123,7 +134,6 @@ public class Chord : MonoBehaviour
 	{
 		//Instantiate (models [size - 1], Transform.position);
 	}
-
 	/// <summary>
     /// Creates an empty note array
     /// </summary>
@@ -132,6 +142,19 @@ public class Chord : MonoBehaviour
 		notes[0] = Notes.Empty;
 		notes[1] = Notes.Empty;
 		notes[2] = Notes.Empty;
+	}
+	/// <summary>
+    /// Sets the text bar with the notes of the object
+    /// </summary>
+    /// <param name="_n"></param>
+	private void setTextBar(Notes[] _n)
+	{
+		string o = "";
+		for (int i = 0; i < _n.Length; i++)
+		{
+			o += _n[i].ToString() + " ";
+		}
+		buttonText.text = o;
 	}
 }
 

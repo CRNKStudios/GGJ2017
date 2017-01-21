@@ -54,8 +54,8 @@ public class Player : MonoBehaviour {
 			
 			Debug.Log ("Chord Fired: " + input[0] + " " + input[1] + " " + input[2]);
 			setNote = 0;
-            input = new Notes[3];
-        }
+			input = new Notes[3];
+		}
 			
 	}
 

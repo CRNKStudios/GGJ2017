@@ -22,6 +22,10 @@ public class Enemy : MonoBehaviour
     /// </summary>
 	public int enemyShotDifficulty = 3;
     /// <summary>
+    /// Tambourine script to run the sound.
+    /// </summary>
+    public Tambourine tambourine;
+    /// <summary>
     /// Delay for the shot fire of the enemy
     /// </summary>
     private float fireDelay = 0f;
@@ -82,7 +86,15 @@ public class Enemy : MonoBehaviour
 	{
 		GameObject bullet = (GameObject)Instantiate(chordPrefab, chordSpawn.transform.position, new Quaternion());
 		bullet.GetComponent<Chord>().randomChord (size);
+        playSound();
 	}
+    void playSound()
+    {
+        if (tambourine != null)
+        {
+            tambourine.getRandomSource().Play();
+        }
+    }
     // Pretty sure this is depricated
     /// <summary>
     /// The enemies cord to hit them with.

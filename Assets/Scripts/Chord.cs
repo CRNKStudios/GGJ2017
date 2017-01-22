@@ -217,6 +217,8 @@ public class Chord : MonoBehaviour
 			if (this.notesAreEqual(col.gameObject.GetComponent<Chord>())) 
 			{
 				Destroy (gameObject);
+			} else if (direction == Direction.Right) {
+				Destroy (gameObject);
 			}
 		} 
 		else if (col.gameObject.tag == "Enemy")

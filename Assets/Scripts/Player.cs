@@ -28,6 +28,14 @@ public class Player : MonoBehaviour {
     /// Input for notes from user.
     /// </summary>
 	private Notes[] input = new Notes[3];
+	/// <summary>
+    /// Delay for the fire rate of the player.
+    /// </summary>
+    private float fireDelay = 1f;
+	/// <summary>
+    /// Fired boolean for a current shot.
+    /// </summary>
+    private bool fired = false;
 
 	void Awake()
 	{
@@ -78,31 +86,47 @@ public class Player : MonoBehaviour {
 				setNote++;
 			}
 		}
-		if (Input.GetKeyDown ("space")) 
-		{
-			while (setNote <= 2) 
-			{
-				input [setNote++] = Notes.Empty;
+		if (Input.GetKeyDown ("space")) {
+            if (!fired)
+            {
+                while (setNote <= 2)
+                {
+                    input[setNote++] = Notes.Empty;
+                }
+                if (input[0] != Notes.Empty)
+                {
+                    shoot();
+                    fired = true;
+                }
+                setNote = 0;
+                input = new Notes[3];clearArray(input);
 			}
-			if(input[0] != Notes.Empty) shoot();
-			setNote = 0;
-			input = new Notes[3];
-			clearArray(input);
 		}
+        if (fired)
+        {
+            fireDelay -= Time.deltaTime;
+            if(fireDelay <= 0)
+            {
+                fired = false;
+                fireDelay = 1f;
+            }
+        }
 		setTextBar(input, setNote);
 	}
 	/// <summary>
     /// Move the player up.
     /// </summary>
 	void moveUp(){
-		if(location > 0)
+        //fired = false;
+        if (location > 0)
 			transform.position = lanes [--location].transform.position;
 	}
 	/// <summary>
     /// Moves the player down.
     /// </summary>
 	void moveDown(){
-		if(location < lanes.Length - 1)
+        //fired = false;
+        if (location < lanes.Length - 1)
 			transform.position = lanes [++location].transform.position;
 	}
 	/// <summary>

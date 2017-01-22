@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour 
+public class Enemy : MonoBehaviour
 {
 	/// <summary>
     /// Text box to display the enemies chord
@@ -21,7 +21,15 @@ public class Enemy : MonoBehaviour
     /// Shot diffculty used in level scaling.
     /// </summary>
 	public int enemyShotDifficulty = 3;
-	/// <summary>
+    /// <summary>
+    /// Delay for the shot fire of the enemy
+    /// </summary>
+    private float fireDelay = 0f;
+    /// <summary>
+    /// Fired boolean for a current shot.
+    /// </summary>
+    private bool fired = false;
+    /// <summary>
     /// Enemies cord to hit them with.
     /// </summary>
 	private Chord target;
@@ -38,11 +46,24 @@ public class Enemy : MonoBehaviour
 
 	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-
-	}
+    // Update is called once per frame
+    void Update()
+    {
+        if (!fired)
+        {
+            setRandomTimerBetween(6f, 18f);
+            shoot(3);
+            fired = true;
+        }
+        else
+        {
+            fireDelay -= Time.deltaTime;
+            if(fireDelay <= 0)
+            {
+                fired = false;
+            }
+        }
+    }
 
 	/// <summary>
     /// The enemies cord to hit them with.
@@ -63,6 +84,23 @@ public class Enemy : MonoBehaviour
 		GameObject bullet = (GameObject)Instantiate(chordPrefab, chordSpawn.transform.position, new Quaternion());
 		bullet.GetComponent<Chord>().randomChord (size);
 	}
+    // Pretty sure this is depricated
+    /// <summary>
+    /// The enemies cord to hit them with.
+    /// </summary>
+    /// <param name="_n">Array of notes</param>
+    public void setTarget(Notes[] _n)
+    {
+        target.Initialize(_n, Direction.None);
+    }
+    /// <summary>
+    /// Random timer for the shots.
+    /// </summary>
+    /// <param name="low">Low time</param>
+    /// <param name="high">High time</param>
+    void setRandomTimerBetween(float low, float high){
+        fireDelay = Random.Range(low, high);
+    }
 	/// <summary>
     /// Sets the text bar with the notes of the object
     /// </summary>

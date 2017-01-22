@@ -76,4 +76,18 @@ public class Enemy : MonoBehaviour
 		}
 		chordText.text = o;
 	}
+	/// <summary>
+    /// Collision handling for the Enemy and notes.
+    /// </summary>
+    /// <param name="col">Collider</param>
+	void OnTriggerEnter(Collider col)
+	{
+		if(col.gameObject.tag == "Note")
+		{
+			if (this.target.notesAreEqual(col.gameObject.GetComponent<Chord>())) 
+			{
+				Destroy (gameObject);
+			}
+		}	
+	}
 }

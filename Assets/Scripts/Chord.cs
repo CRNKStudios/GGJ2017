@@ -210,14 +210,22 @@ public class Chord : MonoBehaviour
     /// Collision handling for the notes.
     /// </summary>
     /// <param name="other">Collider object</param>
-	void OnTriggerEnter(Collider other) 
+	void OnTriggerEnter(Collider col) 
 	{
-		if (other.gameObject.tag == "Note") 
+		if (col.gameObject.tag == "Note") 
 		{
-			if (this.notesAreEqual(other.gameObject.GetComponent<Chord>())) 
+			if (this.notesAreEqual(col.gameObject.GetComponent<Chord>())) 
 			{
 				Destroy (gameObject);
 			}
+		} 
+		else if (col.gameObject.tag == "Enemy")
+		{
+			Destroy (gameObject);
+		} 
+		else if (col.gameObject.tag == "Player")
+		{
+			Destroy (gameObject);
 		}
 	}
 }

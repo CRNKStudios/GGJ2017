@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuManagerScript : MonoBehaviour {
+
+    public Text finalScore;
     void Awake()
     {
         if(SceneManager.GetActiveScene().name == "start_menu"
@@ -22,7 +25,10 @@ public class MenuManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(SceneManager.GetActiveScene().name == "game_over")
+        {
+            updateScore();
+        }
 	}
 
     public void changeScene(string scene)
@@ -44,5 +50,10 @@ public class MenuManagerScript : MonoBehaviour {
     public void exitGame()
     {
          Application.Quit();
+    }
+
+    private void updateScore()
+    {
+        finalScore.text = "" + PlayerPrefs.GetInt("level");
     }
 }

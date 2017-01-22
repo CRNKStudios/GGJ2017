@@ -102,9 +102,33 @@ public class GameManagerScript : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("Player") == null)
         {
             mms.changeScene("game_over");
-        } else if (GameObject.FindGameObjectsWithTag("Enemy").Length <= 0) 
+        } 
+        else if (GameObject.FindGameObjectsWithTag("Enemy").Length <= 0) 
         {
-            mms.changeScene("game_over");
+            Debug.Log("dead enemies");
+            mms.changeScene(checkLevel());
         }
+    }
+
+    string checkLevel()
+    {
+        string difficultyLevel = "";
+        switch(PlayerPrefs.GetInt("level")) 
+        {
+            case 1:
+                PlayerPrefs.SetInt("level", 2);
+                difficultyLevel = "main2";
+                Debug.Log("going to level2");
+                break;
+            case 2:
+                PlayerPrefs.SetInt("level", 3);
+                difficultyLevel = "main3";
+                Debug.Log("going to level3");
+                break;
+            default:
+                difficultyLevel = "game_over";
+                break;
+        }
+        return difficultyLevel;
     }
 }
